@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Dashboard | Elder Care</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2B6777',
+                        secondary: '#52AB98',
+                        accent: '#C8D8E4',
+                        lightBg: '#F2F2F2',
+                        darkBg: '#111827',
+                        cardDark: '#1F2937',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+                <style>
+        /* Improve dark mode contrast globally */
+        .dark .dark\:bg-cardDark,
+        .dark .bg-white {
+            border: 1px solid #6B7280;
+        }
+        .dark .dark\:bg-darkBg {
+            border-color: #6B7280;
+        }
+        /* Border for mealspage cards and others */
+        .dark .dark\:bg-gray-800,
+        .dark .bg-gray-50 {
+            border: 1px solid #6B7280;
+        }
+        /* Preserve specific border tops if they exist (like in meals page) */
+        .dark .border-t-4 {
+            border-top-width: 4px !important;
+        }
+        .dark .border-l-4 {
+            border-left-width: 4px !important;
+        }
+        .dark .border-secondary {
+            border-color: #52AB98 !important;
+        }
+        .dark .border-primary {
+            border-color: #2B6777 !important;
+        }
+        .dark .border-purple-400 {
+            border-color: #C084FC !important;
+        }
+        .dark .border-orange-400 {
+            border-color: #FB923C !important;
+        }
+        .dark .border-blue-500 {
+            border-color: #3B82F6 !important;
+        }
+        .dark .border-gray-300 {
+            border-color: #D1D5DB !important;
+        }
+        
+        /* Text color visibility fix */
+        .dark .text-gray-500, 
+        .dark .text-gray-600,
+        .dark .text-gray-700,
+        .dark .text-gray-800 {
+            color: #F3F4F6 !important; /* bright text for dark mode */
+        }
+        .dark .text-gray-400 {
+            color: #D1D5DB !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 font-sans text-gray-800 dark:text-gray-200 transition-colors duration-300 overflow-x-hidden">
+    
+    <div class="flex h-screen overflow-hidden">
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
+        
+        <!-- Sidebar -->
+        <aside id="dashboard-sidebar" class="w-64 bg-primary text-white flex-shrink-0 fixed inset-y-0 left-0 z-50 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 flex flex-col h-full">
+            <div class="p-6">
+                <a href="index.html" class="flex items-center gap-2">
+                    <i class="fa-solid fa-hands-holding-child text-secondary text-2xl"></i>
+                    <span class="font-serif text-xl font-bold">ElderCare</span>
+                </a>
+            </div>
+            
+            <div class="px-6 py-4">
+                <div class="flex items-center gap-3 mb-6">
+                    <img src="assets/images/profile.jpg" class="w-10 h-10 rounded-full border border-white/30 object-cover" alt="Family User">
+                    <div>
+                        <p class="text-sm font-bold">John Doe</p>
+                        <p class="text-xs text-primary-200">Family Member</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="flex-1 px-4 space-y-2 overflow-y-auto">
+                <p class="px-4 text-xs font-semibold text-primary-200 uppercase tracking-wider mb-2">Dashboard</p>
+                <a href="#overview" class="flex items-center gap-3 px-4 py-3 bg-white/10 rounded-lg text-sm font-medium transition"><i class="fa-solid fa-chart-pie w-5 text-center"></i> Overview</a>
+                <a href="#attendance" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-lg text-sm font-medium transition"><i class="fa-solid fa-calendar-check w-5 text-center"></i> Attendance</a>
+                <a href="#activities" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-lg text-sm font-medium transition"><i class="fa-solid fa-puzzle-piece w-5 text-center"></i> Activities</a>
+                <a href="#wellness" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-lg text-sm font-medium transition"><i class="fa-solid fa-heart-pulse w-5 text-center"></i> Wellness</a>
+                <a href="#meals" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-lg text-sm font-medium transition"><i class="fa-solid fa-utensils w-5 text-center"></i> Meal Plan</a>
+                <a href="#payments" class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-lg text-sm font-medium transition"><i class="fa-solid fa-file-invoice-dollar w-5 text-center"></i> Payments</a>
+            </nav>
+
+            <div class="p-4 mt-auto">
+                <a href="login.html" class="flex items-center justify-center gap-2 w-full px-4 py-2 bg-red-500/20 text-red-100 rounded-lg hover:bg-red-500/40 transition text-sm font-medium">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden relative">
+            
+            <!-- Topbar -->
+            <header class="bg-white dark:bg-cardDark shadow-sm py-4 px-6 flex justify-between items-center z-10">
+                <div class="flex items-center gap-4">
+                    <button id="mobile-menu-btn" class="md:hidden text-gray-500 dark:text-gray-300 text-xl"><i class="fa-solid fa-bars"></i></button>
+                    <h2 class="text-xl font-bold font-serif text-gray-800 dark:text-white">Family Dashboard</h2>
+                </div>
+                
+                <div class="flex items-center gap-5 md:gap-6">
+                    <button id="rtl-toggle" class="text-gray-500 dark:text-gray-300 hover:text-primary transition font-bold text-sm">RTL</button>
+                    <button id="theme-toggle" class="text-gray-500 dark:text-gray-300 hover:text-primary transition" aria-label="Toggle Theme">
+                        <i class="fa-solid fa-moon dark:hidden text-lg"></i>
+                        <i class="fa-solid fa-sun hidden dark:inline text-lg"></i>
+                    </button>
+                    <div class="relative cursor-pointer group">
+                        <i class="fa-solid fa-bell text-gray-500 dark:text-gray-300 text-xl hover:text-primary transition"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold border-2 border-white dark:border-cardDark">3</span>
+                        
+                        <!-- Notifications Dropdown -->
+                        <div class="absolute right-0 mt-2 w-72 bg-white dark:bg-cardDark rounded-lg shadow-xl border border-gray-100 dark:border-gray-700 hidden group-hover:block z-50">
+                            <div class="p-3 border-b dark:border-gray-700 font-bold text-sm">Notifications</div>
+                            <div class="max-h-64 overflow-y-auto">
+                                <a href="#" class="block p-3 border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
+                                    <p class="text-xs font-semibold text-secondary mb-1">Attendance Update</p>
+                                    <p class="text-sm">Eleanor checked in at 09:05 AM.</p>
+                                    <p class="text-[10px] text-gray-400 mt-1">2 hours ago</p>
+                                </a>
+                                <a href="#" class="block p-3 border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
+                                    <p class="text-xs font-semibold text-blue-500 mb-1">Wellness Update</p>
+                                    <p class="text-sm">Daily vitals logged. All normal.</p>
+                                    <p class="text-[10px] text-gray-400 mt-1">3 hours ago</p>
+                                </a>
+                                <a href="#" class="block p-3 hover:bg-gray-50 dark:hover:bg-gray-800">
+                                    <p class="text-xs font-semibold text-red-500 mb-1">Payment Reminder</p>
+                                    <p class="text-sm">Invoice #INV-2026-09 is due soon.</p>
+                                    <p class="text-[10px] text-gray-400 mt-1">1 day ago</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content Scrollable Area -->
+            <div class="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 space-y-8 pb-20">
+                <div id="overview" class="tab-content space-y-8">
+                
+                <!-- Senior Profile Header -->
+                <div class="bg-white dark:bg-cardDark rounded-2xl shadow-sm p-6 flex flex-col md:flex-row items-center md:items-start gap-6 border-l-4 border-secondary">
+                    <img src="assets/images/blog_1.jpg" class="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover shadow-md" alt="Senior Profile">
+                    <div class="flex-1 text-center md:text-left">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
+                            <h3 class="text-2xl font-bold font-serif text-gray-800 dark:text-white">Eleanor Rigby</h3>
+                            <span class="inline-block px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full mt-2 md:mt-0"><i class="fa-solid fa-check-circle mr-1"></i> Checked In</span>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 text-sm">
+                            <div>
+                                <p class="text-gray-500 dark:text-gray-400 text-xs uppercase font-semibold">Age</p>
+                                <p class="font-medium">82 Years</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 dark:text-gray-400 text-xs uppercase font-semibold">Care Plan</p>
+                                <p class="font-medium">Premium Care</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 dark:text-gray-400 text-xs uppercase font-semibold">Assigned Caregiver</p>
+                                <p class="font-medium text-secondary">Sarah Johnson</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 dark:text-gray-400 text-xs uppercase font-semibold">Emergency Contact</p>
+                                <p class="font-medium">John Doe (+1 555-1234)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Stat 1 -->
+                    <div class="bg-white dark:bg-cardDark rounded-xl shadow-sm p-6 border border-gray-100 dark:border-gray-800">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-1">Today's Attendance</p>
+                                <h4 class="text-2xl font-bold text-gray-800 dark:text-white">09:05 AM</h4>
+                                <p class="text-xs text-gray-400 mt-2">Check-out expected at 05:00 PM</p>
+                            </div>
+                            <div class="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500 text-xl">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Stat 2 -->
+                    <div class="bg-white dark:bg-cardDark rounded-xl shadow-sm p-6 border border-gray-100 dark:border-gray-800">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-1">Current Activity</p>
+                                <h4 class="text-2xl font-bold text-gray-800 dark:text-white">Art Therapy</h4>
+                                <p class="text-xs text-secondary mt-2">Ends in 45 mins</p>
+                            </div>
+                            <div class="w-12 h-12 rounded-full bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center text-purple-500 text-xl">
+                                <i class="fa-solid fa-palette"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Stat 3 -->
+                    <div class="bg-white dark:bg-cardDark rounded-xl shadow-sm p-6 border border-gray-100 dark:border-gray-800">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-1">Latest Vitals</p>
+                                <h4 class="text-2xl font-bold text-gray-800 dark:text-white">Normal</h4>
+                                <p class="text-xs text-gray-400 mt-2">BP: 120/80 | HR: 72 bpm</p>
+                            </div>
+                            <div class="w-12 h-12 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-500 text-xl">
+                                <i class="fa-solid fa-heart-pulse"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Two Column Layout: Activities & Meals -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- Today's Activities -->
+                    <div class="bg-white dark:bg-cardDark rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
+                        <div class="p-5 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
+                            <h3 class="font-bold text-lg">Today's Activities</h3>
+                            <button onclick="document.querySelector('nav a[href=``#activities``]').click()" class="text-sm text-primary hover:underline">View History</button>
+                        </div>
+                        <div class="p-0">
+                            <ul class="divide-y divide-gray-100 dark:divide-gray-800">
+                                <li class="p-5 flex items-center gap-4">
+                                    <div class="text-center w-16 flex-shrink-0">
+                                        <p class="text-xs font-bold text-gray-400">10:00 AM</p>
+                                    </div>
+                                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                                    <div>
+                                        <p class="font-bold text-gray-800 dark:text-white">Morning Stretch & Yoga</p>
+                                        <p class="text-xs text-gray-500">Participated fully. Great energy!</p>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span class="text-xs font-bold px-2 py-1 bg-green-100 text-green-700 rounded text-center">Completed</span>
+                                    </div>
+                                </li>
+                                <li class="p-5 flex items-center gap-4 bg-primary/5">
+                                    <div class="text-center w-16 flex-shrink-0">
+                                        <p class="text-xs font-bold text-primary">11:30 AM</p>
+                                    </div>
+                                    <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+                                    <div>
+                                        <p class="font-bold text-gray-800 dark:text-white">Art & Creativity Therapy</p>
+                                        <p class="text-xs text-gray-500">Working on watercolor painting.</p>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span class="text-xs font-bold px-2 py-1 bg-primary/20 text-primary rounded text-center">In Progress</span>
+                                    </div>
+                                </li>
+                                <li class="p-5 flex items-center gap-4 opacity-60">
+                                    <div class="text-center w-16 flex-shrink-0">
+                                        <p class="text-xs font-bold text-gray-400">02:00 PM</p>
+                                    </div>
+                                    <div class="w-2 h-2 rounded-full bg-gray-300"></div>
+                                    <div>
+                                        <p class="font-bold text-gray-800 dark:text-white">Music Appreciation</p>
+                                        <p class="text-xs text-gray-500">Classical music session.</p>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span class="text-xs font-bold px-2 py-1 bg-gray-100 text-gray-500 dark:bg-gray-800 rounded text-center">Upcoming</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Meal Plan -->
+                    <div class="bg-white dark:bg-cardDark rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
+                        <div class="p-5 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
+                            <h3 class="font-bold text-lg">Today's Meal Plan</h3>
+                        </div>
+                        <div class="p-5 grid grid-cols-1 gap-4">
+                            <div class="flex items-start gap-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700">
+                                <div class="w-10 h-10 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center text-lg flex-shrink-0">
+                                    <i class="fa-solid fa-mug-saucer"></i>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-sm">Breakfast (08:30 AM)</h4>
+                                        <span class="text-[10px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded">Eaten</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Oatmeal with fresh berries, whole wheat toast, and decaf coffee.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700">
+                                <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-lg flex-shrink-0">
+                                    <i class="fa-solid fa-bowl-food"></i>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-sm">Lunch (12:30 PM)</h4>
+                                        <span class="text-[10px] bg-gray-200 text-gray-600 px-1.5 py-0.5 rounded">Upcoming</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Grilled chicken breast, quinoa salad, and steamed broccoli. Low sodium.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center text-lg flex-shrink-0">
+                                    <i class="fa-solid fa-cookie"></i>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-sm">Afternoon Snack (03:30 PM)</h4>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Mixed fruit bowl with yogurt.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Wellness & Payments Row -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- Wellness Summary -->
+                    <div class="bg-white dark:bg-cardDark rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden p-5">
+                        <h3 class="font-bold text-lg mb-4">Wellness Snapshot</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="p-4 rounded-lg border dark:border-gray-700 text-center">
+                                <i class="fa-solid fa-heart-pulse text-2xl text-red-500 mb-2"></i>
+                                <p class="text-xs text-gray-500 uppercase font-bold">Blood Pressure</p>
+                                <p class="text-lg font-bold">120/80 <span class="text-xs font-normal text-gray-400">mmHg</span></p>
+                            </div>
+                            <div class="p-4 rounded-lg border dark:border-gray-700 text-center">
+                                <i class="fa-solid fa-wave-square text-2xl text-blue-500 mb-2"></i>
+                                <p class="text-xs text-gray-500 uppercase font-bold">Heart Rate</p>
+                                <p class="text-lg font-bold">72 <span class="text-xs font-normal text-gray-400">bpm</span></p>
+                            </div>
+                            <div class="p-4 rounded-lg border dark:border-gray-700 text-center">
+                                <i class="fa-solid fa-weight-scale text-2xl text-secondary mb-2"></i>
+                                <p class="text-xs text-gray-500 uppercase font-bold">Weight</p>
+                                <p class="text-lg font-bold">145 <span class="text-xs font-normal text-gray-400">lbs</span></p>
+                            </div>
+                            <div class="p-4 rounded-lg border dark:border-gray-700 text-center">
+                                <i class="fa-solid fa-temperature-half text-2xl text-orange-500 mb-2"></i>
+                                <p class="text-xs text-gray-500 uppercase font-bold">Temperature</p>
+                                <p class="text-lg font-bold">98.6 <span class="text-xs font-normal text-gray-400">°F</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Payments -->
+                    <div class="bg-white dark:bg-cardDark rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
+                        <div class="p-5 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
+                            <h3 class="font-bold text-lg">Payment History</h3>
+                            <button onclick="document.querySelector('nav a[href=``#payments``]').click()" class="text-sm text-primary hover:underline">View All</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm whitespace-nowrap min-w-full">
+                                <thead class="bg-gray-50 dark:bg-gray-800/50 text-gray-500 dark:text-gray-400">
+                                    <tr>
+                                        <th class="p-4 font-medium">Invoice</th>
+                                        <th class="p-4 font-medium">Date</th>
+                                        <th class="p-4 font-medium">Amount</th>
+                                        <th class="p-4 font-medium">Status</th>
+                                        <th class="p-4 font-medium text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+                                    <tr>
+                                        <td class="p-4 font-medium">#INV-2026-08</td>
+                                        <td class="p-4 text-gray-500">Aug 01, 2026</td>
+                                        <td class="p-4 font-bold">$2,450</td>
+                                        <td class="p-4"><span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded font-bold">Paid</span></td>
+                                        <td class="p-4 text-right"><button onclick="alert('Invoice downloading...')" class="text-gray-400 hover:text-primary"><i class="fa-solid fa-download"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-medium">#INV-2026-09</td>
+                                        <td class="p-4 text-gray-500">Sep 01, 2026</td>
+                                        <td class="p-4 font-bold">$2,450</td>
+                                        <td class="p-4"><span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded font-bold">Pending</span></td>
+                                        <td class="p-4 text-right"><button onclick="alert('Invoice downloading...')" class="text-gray-400 hover:text-primary"><i class="fa-solid fa-download"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div> </div>
+                <!-- End Overview -->
+
+                <div id="attendance" class="tab-content hidden space-y-8">
+                    <h2 class="text-2xl font-bold font-serif mb-4">Attendance Records</h2>
+                    <div class="bg-white dark:bg-cardDark rounded-xl shadow-sm overflow-hidden border border-gray-100 dark:border-gray-800">
+                        <div class="overflow-x-auto"><table class="w-full text-left border-collapse whitespace-nowrap min-w-full">
+                            <thead>
+                                <tr class="bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-sm border-b dark:border-gray-700">
+                                    <th class="p-4 font-bold">Date</th>
+                                    <th class="p-4 font-bold">Check In</th>
+                                    <th class="p-4 font-bold">Check Out</th>
+                                    <th class="p-4 font-bold">Total Hours</th>
+                                    <th class="p-4 font-bold">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y dark:divide-gray-700">
+                                <tr><td class="p-4 font-medium">Today</td><td class="p-4">09:05 AM</td><td class="p-4">--</td><td class="p-4 text-gray-500">In Progress</td><td class="p-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">Present</span></td></tr>
+                                <tr><td class="p-4 font-medium">Yesterday</td><td class="p-4">08:50 AM</td><td class="p-4">05:10 PM</td><td class="p-4 text-gray-500">8h 20m</td><td class="p-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">Present</span></td></tr>
+                                <tr><td class="p-4 font-medium">Oct 12, 2026</td><td class="p-4">09:15 AM</td><td class="p-4">04:45 PM</td><td class="p-4 text-gray-500">7h 30m</td><td class="p-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">Present</span></td></tr>
+                                <tr><td class="p-4 font-medium">Oct 11, 2026</td><td class="p-4">08:55 AM</td><td class="p-4">05:00 PM</td><td class="p-4 text-gray-500">8h 05m</td><td class="p-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">Present</span></td></tr>
+                                <tr><td class="p-4 font-medium">Oct 10, 2026</td><td class="p-4">--</td><td class="p-4">--</td><td class="p-4 text-gray-500">0h</td><td class="p-4"><span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold">Absent</span></td></tr>
+                                <tr><td class="p-4 font-medium">Oct 09, 2026</td><td class="p-4">09:10 AM</td><td class="p-4">05:00 PM</td><td class="p-4 text-gray-500">7h 50m</td><td class="p-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">Present</span></td></tr>
+                            </tbody>
+                        </table></div>
+                    </div>
+                </div>
+
+                <div id="activities" class="tab-content hidden space-y-8">
+                    <h2 class="text-2xl font-bold font-serif mb-4">Detailed Activity Log</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-white dark:bg-cardDark p-6 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col h-full">
+                            <h3 class="font-bold text-lg mb-2">Art Therapy</h3>
+                            <p class="text-sm text-gray-500 mb-4 flex-1">Completed a watercolor painting today. Showed excellent focus and creativity.</p>
+                            <span class="text-xs bg-primary/20 text-primary px-3 py-1.5 rounded-lg font-bold w-fit">Today, 11:00 AM</span>
+                        </div>
+                        <div class="bg-white dark:bg-cardDark p-6 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col h-full">
+                            <h3 class="font-bold text-lg mb-2">Gentle Yoga</h3>
+                            <p class="text-sm text-gray-500 mb-4 flex-1">Participated in full 30-minute session. Good mobility and balance demonstrated.</p>
+                            <span class="text-xs bg-primary/20 text-primary px-3 py-1.5 rounded-lg font-bold w-fit">Yesterday, 10:00 AM</span>
+                        </div>
+                        <div class="bg-white dark:bg-cardDark p-6 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col h-full">
+                            <h3 class="font-bold text-lg mb-2">Memory Games</h3>
+                            <p class="text-sm text-gray-500 mb-4 flex-1">Engaged well with group word puzzles. Cheerful mood.</p>
+                            <span class="text-xs bg-primary/20 text-primary px-3 py-1.5 rounded-lg font-bold w-fit">Oct 12, 02:00 PM</span>
+                        </div>
+                        <div class="bg-white dark:bg-cardDark p-6 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col h-full">
+                            <h3 class="font-bold text-lg mb-2">Music Appreciation</h3>
+                            <p class="text-sm text-gray-500 mb-4 flex-1">Enjoyed listening to 60s classics. Sang along with peers.</p>
+                            <span class="text-xs bg-primary/20 text-primary px-3 py-1.5 rounded-lg font-bold w-fit">Oct 11, 01:30 PM</span>
+                        </div>
+                        <div class="bg-white dark:bg-cardDark p-6 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col h-full">
+                            <h3 class="font-bold text-lg mb-2">Outdoor Walk</h3>
+                            <p class="text-sm text-gray-500 mb-4 flex-1">Walked for 20 minutes in the garden area. Weather was excellent.</p>
+                            <span class="text-xs bg-primary/20 text-primary px-3 py-1.5 rounded-lg font-bold w-fit">Oct 09, 10:00 AM</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="wellness" class="tab-content hidden space-y-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold font-serif">Wellness & Vitals</h2>
+                        <button onclick="alert('Report downloading... Please check your downloads folder shortly.')" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-secondary transition shadow-sm"><i class="fa-solid fa-download mr-2"></i>Download Report</button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-white dark:bg-cardDark p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800">
+                            <h3 class="font-bold mb-6 border-b dark:border-gray-700 pb-3 flex items-center gap-2"><i class="fa-solid fa-heart-pulse text-red-500"></i> Latest Health Log</h3>
+                            <ul class="space-y-5">
+                                <li class="flex justify-between items-center"><span class="text-gray-600 dark:text-gray-400">Blood Pressure</span><span class="font-bold text-lg">120/80 mmHg</span></li>
+                                <li class="flex justify-between items-center"><span class="text-gray-600 dark:text-gray-400">Heart Rate</span><span class="font-bold text-lg">72 bpm</span></li>
+                                <li class="flex justify-between items-center"><span class="text-gray-600 dark:text-gray-400">Weight</span><span class="font-bold text-lg">145 lbs</span></li>
+                                <li class="flex justify-between items-center"><span class="text-gray-600 dark:text-gray-400">Blood Sugar</span><span class="font-bold text-lg">95 mg/dL</span></li>
+                                <li class="flex justify-between items-center"><span class="text-gray-600 dark:text-gray-400">Overall Mood</span><span class="font-bold text-green-600 text-lg">Excellent</span></li>
+                            </ul>
+                        </div>
+                        <div class="bg-white dark:bg-cardDark p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800">
+                            <h3 class="font-bold mb-6 border-b dark:border-gray-700 pb-3 flex items-center gap-2"><i class="fa-solid fa-pills text-blue-500"></i> Medication Schedule</h3>
+                            <div class="space-y-4">
+                                <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded border-l-4 border-blue-500">
+                                    <p class="font-bold text-sm">Aspirin (81mg)</p>
+                                    <p class="text-xs text-gray-500">1x Daily - Morning</p>
+                                </div>
+                                <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded border-l-4 border-blue-500">
+                                    <p class="font-bold text-sm">Lisinopril (10mg)</p>
+                                    <p class="text-xs text-gray-500">1x Daily - Morning</p>
+                                </div>
+                                <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded border-l-4 border-gray-300">
+                                    <p class="font-bold text-sm text-gray-400">Vitamin D3 (1000 IU)</p>
+                                    <p class="text-xs text-gray-500">1x Daily - Evening</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="meals" class="tab-content hidden space-y-8">
+                    <h2 class="text-2xl font-bold font-serif mb-4">Meal Plan & Diet</h2>
+                    <div class="bg-white dark:bg-cardDark p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800">
+                        <div class="flex justify-between items-center mb-6 border-b dark:border-gray-700 pb-4">
+                            <h3 class="font-bold text-lg">Today's Menu</h3>
+                            <span class="bg-secondary/20 text-secondary font-bold px-3 py-1 rounded-full text-xs">Low Sodium Diet</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4 text-sm">
+                            <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl border-t-4 border-secondary shadow-sm hover:shadow-md transition">
+                                <h4 class="font-bold text-lg mb-2">Breakfast</h4>
+                                <p class="text-xs font-bold text-primary mb-3">08:30 AM</p>
+                                <p class="text-gray-600 dark:text-gray-400">Oatmeal with fresh berries, whole wheat toast, and green tea.</p>
+                                <span class="text-xs font-bold text-green-600 mt-4 block"><i class="fa-solid fa-check mr-1"></i> Consumed</span>
+                            </div>
+                            <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl border-t-4 border-primary shadow-sm hover:shadow-md transition">
+                                <h4 class="font-bold text-lg mb-2">Lunch</h4>
+                                <p class="text-xs font-bold text-primary mb-3">12:30 PM</p>
+                                <p class="text-gray-600 dark:text-gray-400">Grilled chicken salad, quinoa, and a light vinaigrette.</p>
+                                <span class="text-xs font-bold text-green-600 mt-4 block"><i class="fa-solid fa-check mr-1"></i> Consumed</span>
+                            </div>
+                            <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl border-t-4 border-purple-400 shadow-sm hover:shadow-md transition">
+                                <h4 class="font-bold text-lg mb-2">Snack</h4>
+                                <p class="text-xs font-bold text-primary mb-3">03:30 PM</p>
+                                <p class="text-gray-600 dark:text-gray-400">Sliced apples, almond butter, and decaf coffee.</p>
+                                <span class="text-xs font-bold text-gray-500 mt-4 block"><i class="fa-regular fa-clock mr-1"></i> Upcoming</span>
+                            </div>
+                            <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl border-t-4 border-orange-400 shadow-sm hover:shadow-md transition">
+                                <h4 class="font-bold text-lg mb-2">Dinner</h4>
+                                <p class="text-xs font-bold text-primary mb-3">06:00 PM</p>
+                                <p class="text-gray-600 dark:text-gray-400">Baked salmon, steamed asparagus, and wild rice.</p>
+                                <span class="text-xs font-bold text-gray-500 mt-4 block"><i class="fa-regular fa-clock mr-1"></i> Upcoming</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="payments" class="tab-content hidden space-y-8">
+                    <h2 class="text-2xl font-bold font-serif mb-4">Billing & Payments</h2>
+                    <div class="bg-white dark:bg-cardDark p-8 rounded-xl shadow-sm flex flex-col md:flex-row justify-between items-center border border-gray-100 dark:border-gray-800">
+                        <div>
+                            <p class="text-gray-500 dark:text-gray-400 mb-2 font-medium">Current Balance Due</p>
+                            <h3 class="text-4xl font-bold text-red-500">$850.00</h3>
+                            <p class="text-sm font-bold text-gray-500 mt-2">Due by Oct 31, 2026</p>
+                        </div>
+                        <div class="mt-6 md:mt-0 flex gap-4">
+                            <button onclick="alert('Invoice downloading...')" class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-6 py-3 rounded-lg font-bold hover:bg-gray-200 dark:hover:bg-gray-600 transition">View Invoice</button>
+                            <button class="pricing-btn bg-primary text-white px-8 py-3 rounded-lg font-bold hover:bg-secondary transition shadow-md" data-plan="Payment">Pay Now</button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-cardDark rounded-xl shadow-sm overflow-hidden border border-gray-100 dark:border-gray-800">
+                        <div class="p-6 border-b border-gray-100 dark:border-gray-800">
+                            <h4 class="font-bold text-lg">Transaction History</h4>
+                        </div>
+                        <div class="overflow-x-auto"><table class="w-full text-left border-collapse whitespace-nowrap min-w-full">
+                            <thead>
+                                <tr class="bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-sm">
+                                    <th class="p-4 border-b dark:border-gray-700 font-bold">Invoice ID</th>
+                                    <th class="p-4 border-b dark:border-gray-700 font-bold">Date</th>
+                                    <th class="p-4 border-b dark:border-gray-700 font-bold">Amount</th>
+                                    <th class="p-4 border-b dark:border-gray-700 font-bold">Status</th>
+                                    <th class="p-4 border-b dark:border-gray-700 font-bold">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y dark:divide-gray-700">
+                                <tr>
+                                    <td class="p-4 font-medium">#INV-2026-10</td>
+                                    <td class="p-4 text-gray-500">Oct 01, 2026</td>
+                                    <td class="p-4 font-bold">$850</td>
+                                    <td class="p-4"><span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded font-bold">Pending</span></td>
+                                    <td class="p-4"><button onclick="alert('Invoice downloading...')" class="text-primary hover:underline font-bold text-sm">Download</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">#INV-2026-09</td>
+                                    <td class="p-4 text-gray-500">Sep 01, 2026</td>
+                                    <td class="p-4 font-bold">$2,450</td>
+                                    <td class="p-4"><span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded font-bold">Paid</span></td>
+                                    <td class="p-4"><button onclick="alert('Invoice downloading...')" class="text-primary hover:underline font-bold text-sm">Download</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">#INV-2026-08</td>
+                                    <td class="p-4 text-gray-500">Aug 01, 2026</td>
+                                    <td class="p-4 font-bold">$2,450</td>
+                                    <td class="p-4"><span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded font-bold">Paid</span></td>
+                                    <td class="p-4"><button onclick="alert('Invoice downloading...')" class="text-primary hover:underline font-bold text-sm">Download</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium">#INV-2026-07</td>
+                                    <td class="p-4 text-gray-500">Jul 01, 2026</td>
+                                    <td class="p-4 font-bold">$2,450</td>
+                                    <td class="p-4"><span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded font-bold">Paid</span></td>
+                                    <td class="p-4"><button onclick="alert('Invoice downloading...')" class="text-primary hover:underline font-bold text-sm">Download</button></td>
+                                </tr>
+                            </tbody>
+                        </table></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+        <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const links = document.querySelectorAll('nav a[href^="#"]');
+            const contents = document.querySelectorAll('.tab-content');
+            
+                        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const sidebar = document.getElementById('dashboard-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+
+            function toggleMobileMenu() {
+                sidebar.classList.toggle('-translate-x-full');
+                overlay.classList.toggle('hidden');
+            }
+
+            if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            if (overlay) overlay.addEventListener('click', toggleMobileMenu);
+
+            function switchTab(hash) {
+                // If on mobile and clicking a link, close sidebar
+                if (window.innerWidth < 768 && !sidebar.classList.contains('-translate-x-full')) {
+                    toggleMobileMenu();
+                }
+                if(!hash) hash = '#overview';
+                contents.forEach(c => c.classList.add('hidden'));
+                const target = document.querySelector(hash);
+                if(target) target.classList.remove('hidden');
+                
+                links.forEach(l => l.classList.remove('bg-white/10'));
+                links.forEach(l => l.classList.add('hover:bg-white/5'));
+                const activeLink = document.querySelector('nav a[href="' + hash + '"]');
+                if(activeLink) {
+                    activeLink.classList.remove('hover:bg-white/5');
+                    activeLink.classList.add('bg-white/10');
+                }
+            }
+            
+            links.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const hash = link.getAttribute('href');
+                    window.location.hash = hash;
+                    switchTab(hash);
+                });
+            });
+            
+            window.addEventListener('hashchange', () => switchTab(window.location.hash));
+            switchTab(window.location.hash || '#overview');
+        });
+    </script>
+</body>
+</html>
