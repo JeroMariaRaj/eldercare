@@ -88,3 +88,155 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 [dir="rtl"] .fa-chevron-left { 
     transform: scaleX(-1); 
 }
+/* --- Global Responsive Fixes --- */
+
+/* Prevent horizontal scroll globally */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw;
+  width: 100%;
+}
+
+/* Ensure images, videos, and objects fit */
+img, video, iframe, object, embed {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Break long words and URLs safely */
+p, li, td, th {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+/* Ensure headings and links don't break in the middle of words unless absolutely necessary */
+h1, h2, h3, h4, h5, h6, a, span {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+/* Specific fix for tables on small screens */
+@media (max-width: 768px) {
+  .table-responsive-wrapper,
+  table,
+  .overflow-x-auto {
+    display: block;
+    width: 100%;
+    max-width: calc(100vw - 2rem);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Ensure absolute elements and modals do not cause overflow on mobile */
+@media (max-width: 768px) {
+  .modal, [role="dialog"], .fixed.inset-0 > div {
+    max-width: 95vw !important;
+    max-height: 95vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    margin: 0 auto;
+  }
+}
+
+/* Prevent inputs from overflowing */
+input, textarea, select, button {
+  max-width: 100%;
+}
+
+/* Mobile responsive padding and margin adjustments for better fit */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+  
+  /* Dropdowns fixing */
+  .absolute.w-72,
+  .absolute.w-48,
+  .absolute.right-0 {
+    max-width: calc(100vw - 2rem) !important;
+    left: auto !important;
+    right: 0 !important;
+    white-space: normal !important;
+  }
+}
+
+/* Responsive grid overrides specifically targeting grid structures missing responsive classes */
+@media (max-width: 640px) {
+  .grid-cols-2:not(.gap-2):not(.gap-1):not(.w-full) {
+    grid-template-columns: 1fr !important;
+  }
+  .grid-cols-3 {
+    grid-template-columns: 1fr !important;
+  }
+  .grid-cols-4 {
+    grid-template-columns: 1fr !important;
+  }
+  .grid-cols-5 {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Force long flex rows to column */
+  .flex-row:not(.justify-between):not(.items-center) {
+    flex-direction: column !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .grid-cols-3,
+  .grid-cols-4,
+  .grid-cols-5 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Safe areas for iOS */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+
+/* Fix images from unwanted cropping on smaller screens */
+@media (max-width: 768px) {
+  img {
+    height: auto !important;
+    object-fit: contain !important;
+  }
+}
+
+/* Ensure padding is consistent */
+section, .py-20 {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+/* Sidebar Dashboard Mobile Fix */
+#dashboard-sidebar.w-64 {
+  max-width: 80vw !important;
+}
+
+
+/* Fix Navigation overlapping and missing menus on tablet/small-desktop */
+@media (max-width: 1279px) {
+  /* Hide desktop menu items that crowd the header */
+  nav .lg\:flex, 
+  header .lg\:flex {
+    display: none !important;
+  }
+  
+  /* Show hamburger menu button up to xl breakpoint instead of md */
+  #mobile-menu-btn {
+    display: inline-block !important;
+  }
+  
+  /* Hide extra buttons on nav that take up space, they are in mobile menu anyway */
+  nav .lg\:inline-block {
+    display: none !important;
+  }
+}
+
