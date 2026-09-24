@@ -1,4 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+
+    // Logout Handler
+    const allLinks = document.querySelectorAll('a');
+    allLinks.forEach(link => {
+        if (link.textContent.trim().toLowerCase().includes('logout')) {
+            link.addEventListener('click', () => {
+                localStorage.removeItem('isLoggedIn');
+            });
+        }
+    });
+
     // Theme Toggle
     const themeToggleBtns = document.querySelectorAll('#theme-toggle, #mobile-theme-toggle');
     const htmlElement = document.documentElement;
@@ -227,7 +239,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Success UI
             if (form.id === "loginForm") {
-                window.location.href = "family-dashboard.html";
+                localStorage.setItem('isLoggedIn', 'true');
+                showModal(`
+                    <i class="fa-solid fa-circle-check text-5xl text-secondary mb-4"></i>
+                    <h3 class="text-2xl font-bold font-serif text-gray-900 dark:text-white mb-2">Login Successful!</h3>
+                    <p class="text-gray-600 dark:text-gray-400">You are now logged in.</p>
+                    <button class="mt-6 w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-opacity-90" onclick="document.querySelector('#modal-close').click()">Close</button>
+                `);
             } else if (form.id === "registerForm") {
                 window.location.href = "login.html";
             } else if (form.id === "pricing-modal-form") {

@@ -137,11 +137,11 @@
             </div>
 
             <div class="mt-6 space-y-3">
-                <button onclick="window.location.href='family-dashboard.html'" class="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition font-medium shadow-sm">
+                <button type="button" onclick="localStorage.setItem('isLoggedIn', 'true'); alert('Logged in successfully!'); window.location.reload();" class="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition font-medium shadow-sm">
                     <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
                     Continue with Google
                 </button>
-                <button onclick="window.location.href='family-dashboard.html'" class="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition font-medium shadow-sm">
+                <button type="button" onclick="localStorage.setItem('isLoggedIn', 'true'); alert('Logged in successfully!'); window.location.reload();" class="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition font-medium shadow-sm">
                     <i class="fa-brands fa-apple text-gray-900 dark:text-white text-xl"></i>
                     Continue with Apple
                 </button>
